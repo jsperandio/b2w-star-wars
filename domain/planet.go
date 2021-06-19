@@ -7,10 +7,10 @@ import (
 // Planet ...
 type Planet struct {
 	ID          primitive.ObjectID `json:"id" bson:"_id"`
-	Name        string             `json:"name" bson:"name"`
-	Climate     string             `json:"climate" bson:"climate"`
-	Terrain     string             `json:"terrain" bson:"terrain"`
-	Appearances int                `json:"appearances" bson:"appearances"`
+	Name        string             `json:"name" validate:"required" bson:"name"`
+	Climate     string             `json:"climate" validate:"required" bson:"climate"`
+	Terrain     string             `json:"terrain" validate:"required" bson:"terrain"`
+	Appearances int                `json:"appearances" bson:"-"`
 }
 
 // PlanetUsecase represent the Planet usecases

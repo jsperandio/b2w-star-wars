@@ -2,6 +2,7 @@ package mongodb
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/jsperandio/b2w-star-wars/domain"
 	"go.mongodb.org/mongo-driver/bson"
@@ -57,7 +58,9 @@ func (r *MongoDbPlanetRepository) GetByID(id primitive.ObjectID) (*domain.Planet
 
 // FindByplanetname find an planet by planetname
 func (r *MongoDbPlanetRepository) GetByName(name string) (*domain.Planet, error) {
-	return r.findOneByQuery(bson.M{"name": name})
+	return r.findOneByQuery(
+		bson.M{"name": bson.M{"$regex": primitive.Regex{Pattern: "^" + name + "$", Options: "i"}}},
+	)
 }
 
 func (r *MongoDbPlanetRepository) findOneByQuery(query interface{}) (*domain.Planet, error) {
@@ -82,6 +85,9 @@ func (r *MongoDbPlanetRepository) Store(planet *domain.Planet) error {
 
 	planet.ID = primitive.NewObjectID()
 
+	fmt.Println("dentro repo - recebeu ")
+	fmt.Println(planet)
+
 	if err := r.collection.FindOneAndUpdate(
 		ctx,
 		bson.M{"name": planet.Name},
@@ -89,6 +95,9 @@ func (r *MongoDbPlanetRepository) Store(planet *domain.Planet) error {
 		options.FindOneAndUpdate().SetUpsert(true),
 	).Err(); err != nil {
 		// log.WithField("Name", planet.Name).Error("There was an error adding the planet")
+		if err == mongo.ErrNoDocuments {
+			return nil
+		}
 		return err
 	}
 

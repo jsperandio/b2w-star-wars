@@ -1,6 +1,7 @@
 package http
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
@@ -200,14 +201,21 @@ func isRequestValid(m *domain.Planet) (bool, error) {
 
 // Store will store the Planet by given request body
 func (p *PlanetHandler) Store(c *fiber.Ctx) (err error) {
-	var Planet domain.Planet
+	plnt := new(domain.Planet)
 
-	var ok bool
-	if ok, err = isRequestValid(&Planet); !ok {
+	if err := c.BodyParser(plnt); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(ResponseError{Message: err.Error()})
 	}
 
-	err = p.PUsecase.Store(&Planet)
+	var ok bool
+	if ok, err = isRequestValid(plnt); !ok {
+		return c.Status(fiber.StatusBadRequest).JSON(ResponseError{Message: err.Error()})
+	}
+
+	fmt.Println("entrada ")
+	fmt.Println(plnt)
+
+	err = p.PUsecase.Store(plnt)
 	if err != nil {
 		return c.Status(getStatusCode(err)).JSON(ResponseError{Message: err.Error()})
 	}

@@ -57,12 +57,12 @@ func (a *planetUsecase) GetByName(name string) (res *domain.Planet, err error) {
 func (a *planetUsecase) Store(m *domain.Planet) (err error) {
 	existedplanet, _ := a.GetByName(m.Name)
 
-	if existedplanet != (&domain.Planet{}) {
+	if existedplanet != nil {
 		return domain.ErrConflict
 	}
 
 	err = a.planetRepo.Store(m)
-	return nil
+	return err
 }
 
 func (a *planetUsecase) Delete(id string) (err error) {
