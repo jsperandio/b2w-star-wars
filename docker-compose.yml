@@ -1,0 +1,41 @@
+version: "3"
+services:
+  app:
+    container_name: b2w_app
+    build: .
+    command: ./b2w-star-wars
+    depends_on:
+      - dbmongo
+    ports:
+      - 3000:3000
+    networks:
+      - b2w_app_net
+    environment:
+      MONGODB_CONNECTION_URL: mongodb://root:pass12345@dbmongo:27017/sw-planets?authSource=admin
+  dbmongo:
+    container_name: dbmongo
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    networks:
+      - b2w_app_net
+    environment:
+      MONGO_INITDB_DATABASE: sw-planets
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: pass12345
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    depends_on:
+      - dbmongo
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_SERVER: dbmongo 
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: pass12345
+    networks:
+      - b2w_app_net
+networks:
+  b2w_app_net:
+    driver: bridge
