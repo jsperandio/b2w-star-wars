@@ -1,7 +1,6 @@
 package http
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
@@ -145,32 +144,6 @@ func (p *PlanetHandler) GetByID(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusNotFound).JSON(domain.ErrNotFound.Error())
 	}
 
-	// var plnt *domain.Planet
-	// var eg errgroup.Group
-
-	// eg.Go(func() error {
-	// 	// Fetch from Database.
-	// 	p, err := p.PUsecase.GetByID(idP)
-	// 	if err == nil {
-	// 		plnt = p
-	// 	}
-	// 	return err
-	// })
-
-	// eg.Go(func() error {
-	// 	// Fetch from Swapi.
-	// 	swapi_plnt, err := p.SWapi.GetPlanetByName(plnt.Name)
-	// 	if err == nil {
-	// 		plnt.Appearances = len(swapi_plnt.Films)
-	// 	}
-	// 	return err
-	// })
-
-	// // Wait for all HTTP fetches to complete.
-	// if err := eg.Wait(); err == nil {
-	// 	fmt.Println("Successfully fetched all URLs.")
-	// }
-
 	plnt, err := p.PUsecase.GetByID(idP)
 
 	if err != nil {
@@ -211,9 +184,6 @@ func (p *PlanetHandler) Store(c *fiber.Ctx) (err error) {
 	if ok, err = isRequestValid(plnt); !ok {
 		return c.Status(fiber.StatusBadRequest).JSON(ResponseError{Message: err.Error()})
 	}
-
-	fmt.Println("entrada ")
-	fmt.Println(plnt)
 
 	err = p.PUsecase.Store(plnt)
 	if err != nil {

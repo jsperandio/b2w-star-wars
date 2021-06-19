@@ -2,13 +2,14 @@ package mongodb
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/jsperandio/b2w-star-wars/domain"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+
+	log "github.com/sirupsen/logrus"
 )
 
 const (
@@ -20,12 +21,12 @@ type MongoDbPlanetRepository struct {
 	collection *mongo.Collection
 }
 
-// NewMongoRepository creates a mongo API definition repo
+// NewMongoRepository creates a mongo planet definition repo
 func NewMongoDbPlanetRepository(db *mongo.Database) domain.PlanetRepository {
 	return &MongoDbPlanetRepository{collection: db.Collection(collectionName)}
 }
 
-// FindAll fetches all the API definitions available
+// FindAll fetches all the planets definitions available
 func (r *MongoDbPlanetRepository) FindAll() (result []*domain.Planet, err error) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), mongoQueryTimeout)
@@ -56,7 +57,7 @@ func (r *MongoDbPlanetRepository) GetByID(id primitive.ObjectID) (*domain.Planet
 	return r.findOneByQuery(bson.M{"_id": id})
 }
 
-// FindByplanetname find an planet by planetname
+// FindByplanetName find an planet by planet name case insensitive
 func (r *MongoDbPlanetRepository) GetByName(name string) (*domain.Planet, error) {
 	return r.findOneByQuery(
 		bson.M{"name": bson.M{"$regex": primitive.Regex{Pattern: "^" + name + "$", Options: "i"}}},
@@ -85,23 +86,21 @@ func (r *MongoDbPlanetRepository) Store(planet *domain.Planet) error {
 
 	planet.ID = primitive.NewObjectID()
 
-	fmt.Println("dentro repo - recebeu ")
-	fmt.Println(planet)
-
 	if err := r.collection.FindOneAndUpdate(
 		ctx,
 		bson.M{"name": planet.Name},
 		bson.M{"$set": planet},
 		options.FindOneAndUpdate().SetUpsert(true),
 	).Err(); err != nil {
-		// log.WithField("Name", planet.Name).Error("There was an error adding the planet")
 		if err == mongo.ErrNoDocuments {
 			return nil
 		}
+
+		log.WithField("Name", planet.Name).Error("There was an error adding the planet")
 		return err
 	}
 
-	// log.WithField("Name", planet.Name).Debug("planet added")
+	log.WithField("Name", planet.Name).Debug("planet added")
 	return nil
 }
 
@@ -112,7 +111,6 @@ func (r *MongoDbPlanetRepository) Delete(id primitive.ObjectID) error {
 
 	res, err := r.collection.DeleteOne(ctx, bson.M{"_id": id})
 	if err != nil {
-		// log.WithField("planetname", planetname).Error("There was an error removing the planet")
 		return err
 	}
 
@@ -120,6 +118,6 @@ func (r *MongoDbPlanetRepository) Delete(id primitive.ObjectID) error {
 		return domain.ErrNotFound
 	}
 
-	// log.WithField("planetname", planetname).Debug("planet removed")
+	log.Debug("planet removed")
 	return nil
 }

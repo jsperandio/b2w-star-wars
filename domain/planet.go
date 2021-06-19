@@ -15,10 +15,8 @@ type Planet struct {
 
 // PlanetUsecase represent the Planet usecases
 type PlanetUsecase interface {
-	// Fetch(cursor string, num int64) ([]Planet, string, error)
 	FindAll() (result []*Planet, err error)
 	GetByID(id string) (*Planet, error)
-	// Update( ar *Planet) error
 	GetByName(title string) (*Planet, error)
 	Store(*Planet) error
 	Delete(id string) error
@@ -26,11 +24,9 @@ type PlanetUsecase interface {
 
 // PlanetRepository represent the planet's repository contract
 type PlanetRepository interface {
-	// Fetch(cursor string, num int64) (res []Planet, nextCursor string, err error)
 	FindAll() (result []*Planet, err error)
 	GetByID(id primitive.ObjectID) (*Planet, error)
 	GetByName(name string) (*Planet, error)
-	// Update( ar *Planet) error
 	Store(a *Planet) error
 	Delete(id primitive.ObjectID) error
 }
