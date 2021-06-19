@@ -13,11 +13,11 @@ type RESTClient struct {
 }
 
 // NewRestClient will create new an RESTClient for given api url
-func NewRESTClient(url string, maxRetry int, secwait int, maxwaitsec int) *RESTClient {
+func NewRESTClient(url string, maxRetry int, secWait int, maxWaitSec int) *RESTClient {
 	c := *resty.New()
 	c.SetRetryCount(maxRetry).
-		SetRetryWaitTime(time.Duration(secwait) * time.Second).
-		SetRetryMaxWaitTime(20 * time.Second)
+		SetRetryWaitTime(time.Duration(secWait) * time.Second).
+		SetRetryMaxWaitTime(time.Duration(maxWaitSec) * time.Second)
 
 	return &RESTClient{
 		apiUrl: url,
