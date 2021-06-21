@@ -1,5 +1,9 @@
 # b2w-star-wars
 
+<p align="center">
+  <img src="https://logos-download.com/wp-content/uploads/2016/09/Star_Wars_logo-1-700x300.png" width="800" height="220">
+</p>
+
 API REST para listar os planetas da franquia Star Wars.
 
 
@@ -15,6 +19,7 @@ API REST para listar os planetas da franquia Star Wars.
 * [Go Fiber (Web Framework)](https://github.com/gofiber/fiber)
 * [Mongo-driver (driver for MongoDB)](https://github.com/mongodb/mongo-go-driver)
 * [Bigcache (in-memory cache)](https://github.com/allegro/bigcache)
+* [Resty (Resty client lib)](https://github.com/go-resty/resty)
 
 ### Uso
 
