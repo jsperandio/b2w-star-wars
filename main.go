@@ -2,10 +2,10 @@ package main
 
 import (
 	"log"
-	"os"
 
 	"github.com/gofiber/fiber/v2"
 
+	_planetCfg "github.com/jsperandio/b2w-star-wars/planet/config"
 	_planetsDeliveryHttp "github.com/jsperandio/b2w-star-wars/planet/delivery/http"
 	_planetsDeliveryHttpClient "github.com/jsperandio/b2w-star-wars/planet/delivery/http/client"
 	_planetsDeliveryHttpMiddleware "github.com/jsperandio/b2w-star-wars/planet/delivery/http/middleware"
@@ -14,6 +14,11 @@ import (
 )
 
 func main() {
+
+	// Load Env vars
+	var cfg _planetCfg.Config
+	cfg.InitConfig()
+
 	// Fiber instance
 	app := fiber.New()
 
@@ -21,7 +26,7 @@ func main() {
 	_planetsDeliveryHttpMiddleware.InitFiberMiddleware(app)
 
 	// // Init db for app
-	mngdbrep, err := _planetRepository.NewMongoAppRepository(os.Getenv("MONGODB_CONNECTION_URL"))
+	mngdbrep, err := _planetRepository.NewMongoAppRepository(cfg.Mongodb_connetion_string)
 	if err != nil {
 		log.Fatalf("error creating Mongo Client: %v", err)
 	}
@@ -29,9 +34,9 @@ func main() {
 	// Init new Http Client
 	http_client := _planetsDeliveryHttpClient.NewRESTClient(
 		"https://swapi.dev/api/",
-		3,
-		5,
-		20)
+		cfg.Rest_max_retry,
+		cfg.Rest_wait_sec,
+		cfg.Rest_max_wait_sec)
 
 	// Setup Swapi Consumer
 	swapi := _planetsDeliveryHttpClient.NewSwapi(http_client)

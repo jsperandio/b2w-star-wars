@@ -12,6 +12,9 @@ services:
       - b2w_app_net
     environment:
       MONGODB_CONNECTION_URL: mongodb://root:pass12345@dbmongo:27017/sw-planets?authSource=admin
+      REST_CLIENT_RETRY_MAX : 3
+      REST_CLIENT_WAIT_SECS : 5
+      REST_CLIENT_MAX_WAIT_SECS : 20
   dbmongo:
     container_name: dbmongo
     image: mongo:latest
