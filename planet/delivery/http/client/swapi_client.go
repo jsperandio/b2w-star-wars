@@ -2,7 +2,6 @@ package http
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/url"
 	"time"
 
@@ -91,7 +90,6 @@ func (s *Swapi) GetPlanetByName(name string) (*SwapiPlanet, error) {
 
 	swp, _ := s.getFromCache(name)
 	if swp != nil {
-		fmt.Println("veio do cache")
 		return swp, nil
 	}
 
