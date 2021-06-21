@@ -16,6 +16,7 @@ func NewPlanetUsecase(a domain.PlanetRepository) domain.PlanetUsecase {
 	}
 }
 
+// FindAll will get all planets storeds on repository
 func (a *planetUsecase) FindAll() (result []*domain.Planet, err error) {
 	result, err = a.planetRepo.FindAll()
 
@@ -26,6 +27,7 @@ func (a *planetUsecase) FindAll() (result []*domain.Planet, err error) {
 	return result, err
 }
 
+// GetByID will get the planet by given Id
 func (a *planetUsecase) GetByID(id string) (res *domain.Planet, err error) {
 	var sid primitive.ObjectID
 
@@ -44,6 +46,7 @@ func (a *planetUsecase) GetByID(id string) (res *domain.Planet, err error) {
 	return res, err
 }
 
+// GetByName will get the planet by given name
 func (a *planetUsecase) GetByName(name string) (res *domain.Planet, err error) {
 	res, err = a.planetRepo.GetByName(name)
 
@@ -54,6 +57,7 @@ func (a *planetUsecase) GetByName(name string) (res *domain.Planet, err error) {
 	return res, err
 }
 
+// Store will save the planet passed by user
 func (a *planetUsecase) Store(m *domain.Planet) (err error) {
 	existedplanet, _ := a.GetByName(m.Name)
 
@@ -65,6 +69,7 @@ func (a *planetUsecase) Store(m *domain.Planet) (err error) {
 	return err
 }
 
+// Delete will delete the planet by given Id from repository
 func (a *planetUsecase) Delete(id string) (err error) {
 	var sid primitive.ObjectID
 
