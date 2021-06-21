@@ -2,7 +2,6 @@ package middleware
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cache"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 )
@@ -16,7 +15,7 @@ func InitFiberMiddleware(a *fiber.App) {
 		// Add CORS to each route.
 		cors.New(),
 		// Add Cache layer
-		cache.New(),
+		// cache.New(),
 		// Add simple logger.
 		logger.New(),
 	)

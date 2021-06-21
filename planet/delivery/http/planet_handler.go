@@ -1,9 +1,11 @@
 package http
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
+	"golang.org/x/sync/errgroup"
 
 	validator "gopkg.in/go-playground/validator.v9"
 
@@ -92,47 +94,38 @@ func (p *PlanetHandler) GetByName(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusNotFound).JSON(domain.ErrNotFound.Error())
 	}
 
-	// var plnt *domain.Planet
-	// var eg errgroup.Group
+	var plnt *domain.Planet
+	var swapi_plnt *_client.SwapiPlanet
+	var eg errgroup.Group
 
-	// eg.Go(func() error {
-	// 	// Fetch from Database.
-	// 	p, err := p.PUsecase.GetByID(idP)
-	// 	if err == nil {
-	// 		plnt = p
-	// 	}
-	// 	return err
-	// })
+	eg.Go(func() error {
+		// Fetch from Database.
+		p, err := p.PUsecase.GetByName(gname)
+		if err == nil {
+			plnt = p
+		}
+		return err
+	})
 
-	// eg.Go(func() error {
-	// 	// Fetch from Swapi.
-	// 	swapi_plnt, err := p.SWapi.GetPlanetByName(plnt.Name)
-	// 	if err == nil {
-	// 		plnt.Appearances = len(swapi_plnt.Films)
-	// 	}
-	// 	return err
-	// })
+	eg.Go(func() error {
+		// Fetch from Swapi.
+		sp, errr := p.SWapi.GetPlanetByName(gname)
+		if errr == nil {
+			swapi_plnt = sp
+		}
+		return errr
+	})
 
-	// // Wait for all HTTP fetches to complete.
-	// if err := eg.Wait(); err == nil {
-	// 	fmt.Println("Successfully fetched all URLs.")
-	// }
-
-	plnt, err := p.PUsecase.GetByName(gname)
-
-	if err != nil {
+	// Wait for all HTTP fetches to complete.
+	if err := eg.Wait(); err != nil {
 		return c.Status(getStatusCode(err)).JSON(ResponseError{Message: err.Error()})
 	}
 
-	swapi_plnt, err := p.SWapi.GetPlanetByName(gname)
-
-	if err != nil {
-		return c.Status(getStatusCode(err)).JSON(ResponseError{Message: err.Error()})
-	}
-
+	fmt.Println("Successfully fetched all URLs.")
 	plnt.Appearances = len(swapi_plnt.Films)
 
 	return c.Status(fiber.StatusOK).JSON(&plnt)
+
 }
 
 // GetByID will get Planet by given id
@@ -210,6 +203,7 @@ func (p *PlanetHandler) Delete(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusNoContent).JSON("")
 }
 
+// getStatusCode Convert Local errors to default http errros
 func getStatusCode(err error) int {
 	if err == nil {
 		return http.StatusOK
