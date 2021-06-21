@@ -5,6 +5,8 @@ import (
 	"time"
 )
 
+const SwapiURL = "https://swapi.dev/api/"
+
 // a Planet Schema from SWAPI
 type SwapiPlanet struct {
 	Name           string    `json:"name"`
@@ -31,6 +33,7 @@ type Response struct {
 	Results  []SwapiPlanet `json:"results"`
 }
 
+// Swapi Interface
 type SwapiClient interface {
 	GetPlanetByName(name string) (*SwapiPlanet, error)
 }
@@ -42,6 +45,7 @@ type Swapi struct {
 
 // NewSwapi creates a Swapi definition for https://swapi.dev/
 func NewSwapi(swac *RESTClient) SwapiClient {
+	swac.apiUrl = SwapiURL
 	return &Swapi{
 		client: swac,
 	}

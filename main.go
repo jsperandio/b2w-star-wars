@@ -33,7 +33,7 @@ func main() {
 
 	// Init new Http Client
 	http_client := _planetsDeliveryHttpClient.NewRESTClient(
-		"https://swapi.dev/api/",
+		"",
 		cfg.Rest_max_retry,
 		cfg.Rest_wait_sec,
 		cfg.Rest_max_wait_sec)
