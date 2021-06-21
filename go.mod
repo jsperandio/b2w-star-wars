@@ -3,6 +3,7 @@ module github.com/jsperandio/b2w-star-wars
 go 1.16
 
 require (
+	github.com/allegro/bigcache/v3 v3.0.0
 	github.com/andybalholm/brotli v1.0.3 // indirect
 	github.com/go-playground/universal-translator v0.17.0 // indirect
 	github.com/go-resty/resty/v2 v2.6.0

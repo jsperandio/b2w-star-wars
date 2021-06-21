@@ -1,8 +1,12 @@
 package http
 
 import (
+	"encoding/json"
+	"fmt"
 	"net/url"
 	"time"
+
+	"github.com/allegro/bigcache/v3"
 )
 
 const SwapiURL = "https://swapi.dev/api/"
@@ -41,13 +45,17 @@ type SwapiClient interface {
 // Swapi represents a reference of SWAPI
 type Swapi struct {
 	client *RESTClient
+	cache  *bigcache.BigCache
 }
 
 // NewSwapi creates a Swapi definition for https://swapi.dev/
 func NewSwapi(swac *RESTClient) SwapiClient {
+	imcache, _ := bigcache.NewBigCache(bigcache.DefaultConfig(1 * time.Minute))
+
 	swac.apiUrl = SwapiURL
 	return &Swapi{
 		client: swac,
+		cache:  imcache,
 	}
 }
 
@@ -56,9 +64,36 @@ func (s *Swapi) encodeParam(rawurl string) string {
 	return url.QueryEscape(rawurl)
 }
 
+func (s *Swapi) getFromCache(name string) (*SwapiPlanet, error) {
+	imjson, err := s.cache.Get(name)
+
+	if err == nil {
+
+		var swplnt SwapiPlanet
+		err := json.Unmarshal([]byte(imjson), &swplnt)
+		return &swplnt, err
+	}
+
+	return nil, err
+}
+
+func (s *Swapi) SetCache(key string, value SwapiPlanet) {
+
+	json, err := json.Marshal(value)
+	if err == nil {
+		s.cache.Set(key, []byte(json))
+	}
+}
+
 // Get a planet by a given name
 // Ex : https://swapi.dev/api/planets/?search=Tatooine
 func (s *Swapi) GetPlanetByName(name string) (*SwapiPlanet, error) {
+
+	swp, _ := s.getFromCache(name)
+	if swp != nil {
+		fmt.Println("veio do cache")
+		return swp, nil
+	}
 
 	r := Response{}
 	resp, err := s.client.Get("planets/?search="+s.encodeParam(name), r)
@@ -75,6 +110,8 @@ func (s *Swapi) GetPlanetByName(name string) (*SwapiPlanet, error) {
 
 	if re.Count > 0 {
 		swp := re.Results[0]
+		s.SetCache(name, swp)
+
 		return &swp, err
 	}
 
