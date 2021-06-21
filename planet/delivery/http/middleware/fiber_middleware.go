@@ -14,8 +14,6 @@ func InitFiberMiddleware(a *fiber.App) {
 	a.Use(
 		// Add CORS to each route.
 		cors.New(),
-		// Add Cache layer
-		// cache.New(),
 		// Add simple logger.
 		logger.New(),
 	)

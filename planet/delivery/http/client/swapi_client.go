@@ -51,6 +51,7 @@ func NewSwapi(swac *RESTClient) SwapiClient {
 	}
 }
 
+// encodeParam adjust space and special characters for URL
 func (s *Swapi) encodeParam(rawurl string) string {
 	return url.QueryEscape(rawurl)
 }

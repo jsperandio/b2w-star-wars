@@ -1,7 +1,6 @@
 package http
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/go-resty/resty/v2"
@@ -26,7 +25,6 @@ func NewRESTClient(url string, maxRetry int, secWait int, maxWaitSec int) *RESTC
 }
 
 func (rc *RESTClient) Get(route string, automarshal interface{}) (result *resty.Response, err error) {
-	fmt.Println(route)
 	return rc.client.R().
 		SetResult(automarshal).
 		ForceContentType("application/json").
