@@ -1,52 +1,41 @@
 # b2w-star-wars
 
-Olá, tudo bem?
+API REST para listar os planetas da franquia Star Wars.
 
 
-Dando continuidade ao nosso processo, temos um desafio para te propor! \o/
+### Feito usando
+
+* [Go](https://golang.org/)
+* [MongoDB](https://www.mongodb.com/)
+* [Docker](https://www.docker.com/)
+* [Docker Compose](https://docs.docker.com/compose/)
+
+#### Com uso de libs:
+
+* [Go Fiber (Web Framework)](https://github.com/gofiber/fiber)
+* [Mongo-driver (driver for MongoDB)](https://github.com/mongodb/mongo-go-driver)
+* [Bigcache (in-memory cache)](https://github.com/allegro/bigcache)
+
+### Uso
+
+#### Pré-requisitos
+
+* Ambiente com Docker e Docker Compose :).
+
+#### Usando Aplicação
+
+```bash
+$ docker-compose up --build
+```
+
+#### Endpoints
 
 
-Nossos associados são aficionados por Star Wars e com isso, queremos criar um jogo com algumas informações da franquia.
+| Nome | Path | Method | Content-Type | Descrição |
+| ------ | ------ | ------ | ------ | ------ |
+| Listar planetas| api/v1/planets | GET | application/json | Retornar todos os planetas cadastrados no banco de dados. |
+| Buscar planeta| api/v1/planet/:id | GET | application/json | Retorna o planeta pelo codigo. |
+| Buscar planeta pelo nome| api/v1/planet/?name={Nome} | GET | application/json | Retorna o planeta pelo seu nome inputado. |
+| Inserir planeta | api/v1/planet | POST | application/json | Insere um planeta na base de dados de acordo com o layout proposto. |
+| Deletar planeta | api/v1/planet/:id | DELETE | application/json | Deleta o planeta do banco de dados de acordo com o id passado. |
 
-
-Para possibilitar a equipe de front criar essa aplicação, queremos desenvolver uma API que contenha os dados dos planetas.
-
-
-Requisitos:
-
-- A API deve ser REST
-
-- Para cada planeta, os seguintes dados devem ser obtidos do banco de dados da aplicação, sendo inserido manualmente:
-
-    Nome
-    Clima
-    Terreno
-
-
-- Para cada planeta também devemos ter a quantidade de aparições em filmes, que podem ser obtidas pela API pública do Star Wars: https://swapi.dev/about
-
-
-Funcionalidades desejadas: 
-
-
-- Adicionar um planeta (com nome, clima e terreno)
-
-- Listar planetas
-
-- Buscar por nome
-
-- Buscar por ID
-
-- Remover planeta
-
-
-OBS: A linguagem para realização do desafio será correspondente a do anúncio da vaga.
-
-
-Bancos que usamos: MongoDB, Cassandra, DynamoDB, Datomic, ELK.
-
-
-E lembre-se! Um bom software é um software bem testado.
-
-
-May the force be with you!
