@@ -42,32 +42,6 @@ func NewPlanetHandler(a *fiber.App, us domain.PlanetUsecase, swapi _client.Swapi
 
 // FindAll will get all Planets stored in database
 func (p *PlanetHandler) FindAll(c *fiber.Ctx) error {
-	// var plnt *domain.Planet
-	// var eg errgroup.Group
-
-	// eg.Go(func() error {
-	// 	// Fetch from Database.
-	// 	p, err := p.PUsecase.GetByID(idP)
-	// 	if err == nil {
-	// 		plnt = p
-	// 	}
-	// 	return err
-	// })
-
-	// eg.Go(func() error {
-	// 	// Fetch from Swapi.
-	// 	swapi_plnt, err := p.SWapi.GetPlanetByName(plnt.Name)
-	// 	if err == nil {
-	// 		plnt.Appearances = len(swapi_plnt.Films)
-	// 	}
-	// 	return err
-	// })
-
-	// // Wait for all HTTP fetches to complete.
-	// if err := eg.Wait(); err == nil {
-	// 	fmt.Println("Successfully fetched all URLs.")
-	// }
-
 	plnts, err := p.PUsecase.FindAll()
 
 	if err != nil {
