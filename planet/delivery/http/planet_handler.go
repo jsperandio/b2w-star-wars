@@ -74,6 +74,14 @@ func (p *PlanetHandler) FindAll(c *fiber.Ctx) error {
 		return c.Status(getStatusCode(err)).JSON(ResponseError{Message: err.Error()})
 	}
 
+	for _, plnt := range plnts {
+		swapi_plnt, errl := p.SWapi.GetPlanetByName(plnt.Name)
+		if errl != nil {
+			return c.Status(getStatusCode(err)).JSON(ResponseError{Message: err.Error()})
+		}
+		plnt.Appearances = len(swapi_plnt.Films)
+	}
+
 	// swapi_plnt, err := p.SWapi.GetPlanetByName(gname)
 
 	// if err != nil {
