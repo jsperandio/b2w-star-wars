@@ -96,11 +96,7 @@ func (s *Swapi) GetPlanetByName(name string) (*SwapiPlanet, error) {
 	r := Response{}
 	resp, err := s.client.Get("planets/?search="+s.encodeParam(name), r)
 
-	if err != nil {
-		return nil, err
-	}
-
-	if resp.IsError() {
+	if err != nil || resp.IsError() {
 		return nil, err
 	}
 
