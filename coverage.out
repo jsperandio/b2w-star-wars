@@ -1,0 +1,19 @@
+mode: set
+github.com/jsperandio/b2w-star-wars/planet/delivery/http/client/rest_client.go:15.87,25.2 3 1
+github.com/jsperandio/b2w-star-wars/planet/delivery/http/client/rest_client.go:27.102,32.2 1 1
+github.com/jsperandio/b2w-star-wars/planet/delivery/http/client/swapi_client.go:51.45,59.2 3 0
+github.com/jsperandio/b2w-star-wars/planet/delivery/http/client/swapi_client.go:62.51,64.2 1 0
+github.com/jsperandio/b2w-star-wars/planet/delivery/http/client/swapi_client.go:66.65,69.16 2 0
+github.com/jsperandio/b2w-star-wars/planet/delivery/http/client/swapi_client.go:76.2,76.17 1 0
+github.com/jsperandio/b2w-star-wars/planet/delivery/http/client/swapi_client.go:69.16,74.3 3 0
+github.com/jsperandio/b2w-star-wars/planet/delivery/http/client/swapi_client.go:79.57,82.16 2 0
+github.com/jsperandio/b2w-star-wars/planet/delivery/http/client/swapi_client.go:82.16,84.3 1 0
+github.com/jsperandio/b2w-star-wars/planet/delivery/http/client/swapi_client.go:89.68,92.16 2 0
+github.com/jsperandio/b2w-star-wars/planet/delivery/http/client/swapi_client.go:96.2,99.16 3 0
+github.com/jsperandio/b2w-star-wars/planet/delivery/http/client/swapi_client.go:103.2,103.20 1 0
+github.com/jsperandio/b2w-star-wars/planet/delivery/http/client/swapi_client.go:107.2,109.18 2 0
+github.com/jsperandio/b2w-star-wars/planet/delivery/http/client/swapi_client.go:116.2,116.17 1 0
+github.com/jsperandio/b2w-star-wars/planet/delivery/http/client/swapi_client.go:92.16,94.3 1 0
+github.com/jsperandio/b2w-star-wars/planet/delivery/http/client/swapi_client.go:99.16,101.3 1 0
+github.com/jsperandio/b2w-star-wars/planet/delivery/http/client/swapi_client.go:103.20,105.3 1 0
+github.com/jsperandio/b2w-star-wars/planet/delivery/http/client/swapi_client.go:109.18,114.3 3 0

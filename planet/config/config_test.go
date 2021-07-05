@@ -46,12 +46,19 @@ func (c *ConfigSuite) TestInitConfig() {
 	assert.Equal(10, c.config.Rest_max_wait_sec)
 }
 
-// TestFallback will test if the Fallback is correct on return
-func (c *ConfigSuite) TestFallback() {
+// TestFallbackDefault will test if the Fallback is correct on return
+func (c *ConfigSuite) TestFallbackDefault() {
 	assert := assert.New(c.T())
 
 	assert.Equal(10, c.config.GetEnvAsIntOrFallback("test_int", 10))
 	assert.Equal("dez", c.config.GetEnvAsStringOrFallback("test_string", "dez"))
+}
+
+// TestFallbackConvertError will test if the Fallback is correct on return
+func (c *ConfigSuite) TestFallbackConvertError() {
+	assert := assert.New(c.T())
+
+	assert.Equal(10, c.config.GetEnvAsIntOrFallback("test_sucess_string", 10))
 }
 
 // TestGetEnvSucess will check if the Env is load correctly

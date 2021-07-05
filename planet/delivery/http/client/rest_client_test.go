@@ -52,12 +52,32 @@ func (rcs *RestClientSuite) TestGet() {
 	bdytst := resp.Result().(*BodyTest)
 
 	assrt.Equal(1, httpmock.GetTotalCallCount())
-
+	assrt.NotEqual(true, resp.IsError())
 	assrt.Equal(BodyTest{
 		Message: "Test Result",
 		Code:    200,
 	}, *bdytst)
 
+}
+
+// TestGet check if the Get function on client run for all type of rest API
+func (rcs *RestClientSuite) TestGetError() {
+	assrt := assert.New(rcs.T())
+
+	type BodyTest struct {
+		Message string `json:"message"`
+		Code    int    `json:"code"`
+	}
+
+	responder := httpmock.NewStringResponder(500, "")
+	httpmock.RegisterResponder("GET", rcs.rc.ApiUrl+"_error", responder)
+
+	intfc_ref := &BodyTest{}
+	resp, _ := rcs.rc.Get("_error", intfc_ref)
+
+	assrt.Equal(1, httpmock.GetTotalCallCount())
+	assrt.Equal(500, resp.StatusCode())
+	assrt.Equal(true, resp.IsError())
 }
 
 // TestConfigSuite is the function to kick off the test suite
