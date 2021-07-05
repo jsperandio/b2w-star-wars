@@ -7,8 +7,8 @@ import (
 )
 
 type RESTClient struct {
-	apiUrl string
-	client resty.Client
+	ApiUrl string
+	Client resty.Client
 }
 
 // NewRestClient will create new an RESTClient for given api url
@@ -19,14 +19,14 @@ func NewRESTClient(url string, maxRetry int, secWait int, maxWaitSec int) *RESTC
 		SetRetryMaxWaitTime(time.Duration(maxWaitSec) * time.Second)
 
 	return &RESTClient{
-		apiUrl: url,
-		client: c,
+		ApiUrl: url,
+		Client: c,
 	}
 }
 
 func (rc *RESTClient) Get(route string, automarshal interface{}) (result *resty.Response, err error) {
-	return rc.client.R().
+	return rc.Client.R().
 		SetResult(automarshal).
 		ForceContentType("application/json").
-		Get(rc.apiUrl + route)
+		Get(rc.ApiUrl + route)
 }

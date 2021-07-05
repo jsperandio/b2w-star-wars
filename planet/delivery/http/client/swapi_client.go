@@ -51,7 +51,7 @@ type Swapi struct {
 func NewSwapi(swac *RESTClient) SwapiClient {
 	imcache, _ := bigcache.NewBigCache(bigcache.DefaultConfig(1 * time.Minute))
 
-	swac.apiUrl = SwapiURL
+	swac.ApiUrl = SwapiURL
 	return &Swapi{
 		client: swac,
 		cache:  imcache,

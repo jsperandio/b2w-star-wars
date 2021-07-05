@@ -8,6 +8,7 @@ require (
 	github.com/go-playground/universal-translator v0.17.0 // indirect
 	github.com/go-resty/resty/v2 v2.6.0
 	github.com/gofiber/fiber/v2 v2.12.0
+	github.com/jarcoal/httpmock v1.0.8
 	github.com/joho/godotenv v1.3.0 // indirect
 	github.com/klauspost/compress v1.13.0 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
