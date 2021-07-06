@@ -2,6 +2,7 @@ package http
 
 import (
 	"encoding/json"
+	"errors"
 	"net/url"
 	"time"
 
@@ -39,6 +40,7 @@ type Response struct {
 // Swapi Interface
 type SwapiClient interface {
 	GetPlanetByName(name string) (*SwapiPlanet, error)
+	SetCache(key string, value SwapiPlanet)
 }
 
 // Swapi represents a reference of SWAPI
@@ -52,14 +54,15 @@ func NewSwapi(swac *RESTClient) SwapiClient {
 	imcache, _ := bigcache.NewBigCache(bigcache.DefaultConfig(1 * time.Minute))
 
 	swac.ApiUrl = SwapiURL
+
 	return &Swapi{
 		client: swac,
 		cache:  imcache,
 	}
 }
 
-// encodeParam adjust space and special characters for URL
-func (s *Swapi) encodeParam(rawurl string) string {
+// EncodeParam adjust space and special characters for URL
+func (s *Swapi) EncodeParam(rawurl string) string {
 	return url.QueryEscape(rawurl)
 }
 
@@ -76,6 +79,7 @@ func (s *Swapi) getFromCache(name string) (*SwapiPlanet, error) {
 	return nil, err
 }
 
+// SetCache manualy set a cache item
 func (s *Swapi) SetCache(key string, value SwapiPlanet) {
 
 	json, err := json.Marshal(value)
@@ -94,10 +98,14 @@ func (s *Swapi) GetPlanetByName(name string) (*SwapiPlanet, error) {
 	}
 
 	r := Response{}
-	resp, err := s.client.Get("planets/?search="+s.encodeParam(name), r)
+	resp, err := s.client.Get("planets/?search="+s.EncodeParam(name), r)
 
-	if err != nil || resp.IsError() {
+	if err != nil {
 		return nil, err
+	}
+
+	if resp.IsError() {
+		return nil, errors.New("HTTP status `code >= 400`")
 	}
 
 	re := resp.Result().(*Response)
@@ -109,5 +117,5 @@ func (s *Swapi) GetPlanetByName(name string) (*SwapiPlanet, error) {
 		return &swp, err
 	}
 
-	return nil, err
+	return nil, errors.New("ok, but no occurrences")
 }
