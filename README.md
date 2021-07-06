@@ -20,6 +20,7 @@ API REST para listar os planetas da franquia Star Wars.
 * [Mongo-driver (driver for MongoDB)](https://github.com/mongodb/mongo-go-driver)
 * [Bigcache (in-memory cache)](https://github.com/allegro/bigcache)
 * [Resty (Resty client lib)](https://github.com/go-resty/resty)
+* [Httpmock (Mocking lib)](https://github.com/jarcoal/httpmock)
 
 ### Uso
 
@@ -44,3 +45,9 @@ $ docker-compose up --build
 | Inserir planeta | api/v1/planet | POST | application/json | Insere um planeta na base de dados de acordo com o layout proposto. |
 | Deletar planeta | api/v1/planet/:id | DELETE | application/json | Deleta o planeta do banco de dados de acordo com o id passado. |
 
+## Testes
+
+### Executar test
+```bash
+$ go test ./...
+```
