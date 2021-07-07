@@ -51,3 +51,6 @@ $ docker-compose up --build
 ```bash
 $ go test ./...
 ```
+
+Neste projeto foi usado gerador de mocks, a ferramenta: 
+* [mockery (Mocking lib)](https://github.com/vektra/mockery)
