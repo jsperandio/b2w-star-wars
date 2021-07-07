@@ -30,8 +30,6 @@ func NewMongoAppRepository(dsn string) (*MongoRepository, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), mongoConnTimeout)
 	defer cancel()
 
-	fmt.Printf(dsn)
-
 	connString, err := connstring.Parse(dsn)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse mongodb connection string: %w", err)

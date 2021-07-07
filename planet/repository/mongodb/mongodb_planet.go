@@ -21,7 +21,7 @@ type MongoDbPlanetRepository struct {
 	collection *mongo.Collection
 }
 
-// NewMongoRepository creates a mongo planet definition repo
+// NewMongoDbPlanetRepository creates a mongo planet definition repo
 func NewMongoDbPlanetRepository(db *mongo.Database) domain.PlanetRepository {
 	return &MongoDbPlanetRepository{collection: db.Collection(collectionName)}
 }
@@ -53,11 +53,12 @@ func (r *MongoDbPlanetRepository) FindAll() (result []*domain.Planet, err error)
 	return result, cur.Err()
 }
 
+// GetByID get an planet by given Id
 func (r *MongoDbPlanetRepository) GetByID(id primitive.ObjectID) (*domain.Planet, error) {
 	return r.findOneByQuery(bson.M{"_id": id})
 }
 
-// FindByplanetName find an planet by planet name case insensitive
+// FindByplanetName find an planet by planet name, case insensitive
 func (r *MongoDbPlanetRepository) GetByName(name string) (*domain.Planet, error) {
 	return r.findOneByQuery(
 		bson.M{"name": bson.M{"$regex": primitive.Regex{Pattern: "^" + name + "$", Options: "i"}}},
@@ -78,7 +79,7 @@ func (r *MongoDbPlanetRepository) findOneByQuery(query interface{}) (*domain.Pla
 	return &result, err
 }
 
-// Add adds an planet to the repository
+// Store adds an planet to the repository
 func (r *MongoDbPlanetRepository) Store(planet *domain.Planet) error {
 	ctx, cancel := context.WithTimeout(context.Background(), mongoQueryTimeout)
 
@@ -104,7 +105,7 @@ func (r *MongoDbPlanetRepository) Store(planet *domain.Planet) error {
 	return nil
 }
 
-// Remove an planet from the repository
+// Delete remove an planet from the repository
 func (r *MongoDbPlanetRepository) Delete(id primitive.ObjectID) error {
 	ctx, cancel := context.WithTimeout(context.Background(), mongoQueryTimeout)
 	defer cancel()
