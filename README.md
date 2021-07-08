@@ -26,12 +26,16 @@ API REST para listar os planetas da franquia Star Wars.
 
 #### Pré-requisitos
 
-* Ambiente com Docker e Docker Compose :).
+* Ambiente com Docker e Docker Compose :smiley: .
 
 #### Usando Aplicação
+Clone o repo, navegue para a pasta.
 
 ```bash
-$ docker-compose up --build
+$ docker-compose build
+```
+```bash
+$ docker-compose up
 ```
 
 #### Endpoints
