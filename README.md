@@ -26,7 +26,7 @@ API REST para listar os planetas da franquia Star Wars.
 
 #### Pré-requisitos
 
-* Ambiente com Docker e Docker Compose :smiley: .
+* Ambiente com Docker e Docker Compose :sunglasses: .
 
 #### Usando Aplicação
 Clone o repo, navegue para a pasta.
