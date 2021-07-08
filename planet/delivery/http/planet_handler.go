@@ -1,7 +1,6 @@
 package http
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
@@ -95,7 +94,6 @@ func (p *PlanetHandler) GetByName(c *fiber.Ctx) error {
 		return c.Status(getStatusCode(err)).JSON(ResponseError{Message: err.Error()})
 	}
 
-	fmt.Println("Successfully fetched all URLs.")
 	plnt.Appearances = len(swapi_plnt.Films)
 
 	return c.Status(fiber.StatusOK).JSON(&plnt)
